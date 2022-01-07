@@ -1,4 +1,7 @@
 #include<iostream>
+#include <algorithm>
+
+
 using namespace std;
 
 struct Array{
@@ -43,6 +46,36 @@ void del(struct Array *a, int index){
         a->length--;
     }
 }
+//LINEAR SEARCH
+int lsearch(struct Array *a, int x){
+    for(int i{0}; i < a->length; i++){
+        if(a->A[i] == x){
+            //swap(a->A[i], a->A[0]);        //improving method1-MOVE TO HEAD(direct to index0) 
+            if(i > 0)                       //improving method2-TRANSPOSITION(one index closer)
+            swap(a->A[i], a->A[i-1]);
+            return i;
+        }
+    }
+    return -1;
+}
+//BINARY SEARCH
+int bsearch(struct Array a, int x){
+    int l{0};
+    int h{a.length-1};
+    int mid{(l+h)/2}; 
+
+    while(l < h){
+        mid = (l+h)/2;
+        if(x == a.A[mid])
+            return mid;
+        else if(x < a.A[mid]){
+            h = mid-1;
+        }else{
+            l = mid+1;
+        }
+    }
+    return -1;
+}
 int main(){
     int n;
     struct Array arr;
@@ -64,5 +97,8 @@ int main(){
     display(arr);
     del(&arr, 2);
     display(arr);
+    cout << "Searched element at index: " << lsearch(&arr, 8) << endl;
+    display(arr);
+
     return 0;
 }
